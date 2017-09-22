@@ -2,9 +2,57 @@
 <html>
 <head>
     <title>Meadowlark Travel</title>
+    {{#if showTests}}
+        <link rel="stylesheet" href="/vendor/mocha.css">
+    {{/if}}
+    <script src="//code.jquery.com/jquery-2.0.2.min.js"></script>
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 999px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+    }
+</style>
 </head>
 <body>
     <header><img src="/img/logo.png" alt="Meadowlark Travel Logo"></header>
+    {{#if flash}}
+        <div class="alert alert-dismissible alert-{{flash.type}}">
+            <button type="button" class="close"
+                    data-dismiss="alert" aria-hidded="true">&times;</button>
+            <strong>{{flash.intro}}</strong> {{{flash.message}}}
+        </div>
+    {{/if}}
     {{{body}}}
+
+    {{#if showTests}}
+        <div id="mocha"></div>
+        <script src="/vendor/mocha.js"></script>
+        <script src="/vendor/chai.js"></script>
+        <script>
+            mocha.ui('tdd');
+            var assert = chai.assert;
+        </script>
+        <script src="/qa/tests-global.js"></script>
+        {{#if pageTestScript}}
+            <script src="{{pageTestScript}}"></script>
+        {{/if}}
+        <script>mocha.run();</script>
+    {{/if}}
 </body>
 </html>
